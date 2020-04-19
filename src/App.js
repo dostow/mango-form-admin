@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Admin, Resource, ListGuesser, EditGuesser } from "react-admin";
+import dataProvider from "./rest";
+import authProvider from "./authProvider";
+import {
+  QuestionList,
+  QuestionEdit,
+  QuestionCreate
+} from "./resources/Questions";
+import { EmailList, EmailCreate, EmailEdit } from "./resources/Emails";
+import transformer from "./transformer";
+import { AnswerList, AnswerEdit, AnswerCreate } from "./resources/Answer";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Admin dataProvider={transformer(dataProvider)} authProvider={authProvider}>
+    <Resource
+      name="question"
+      list={QuestionList}
+      edit={QuestionEdit}
+      create={QuestionCreate}
+    />
+    <Resource
+      name="answer"
+      list={AnswerList}
+      edit={AnswerEdit}
+      create={AnswerCreate}
+    />
+    <Resource
+      name="emails"
+      list={EmailList}
+      edit={EmailEdit}
+      create={EmailCreate}
+    />
+    <Resource name="supporticket" list={ListGuesser} edit={EditGuesser} />
+  </Admin>
+);
 
 export default App;
