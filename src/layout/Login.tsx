@@ -180,8 +180,6 @@ Login.propTypes = {
   previousRoute: PropTypes.string,
 };
 
-const mp4 =
-  "http://anchortelecoms.com/wp-content/uploads/2019/04/VID-20190416-WA0000.mp4";
 // We need to put the ThemeProvider decoration in another component
 // Because otherwise the useStyles() hook used in Login won't get
 // the right theme

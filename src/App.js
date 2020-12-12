@@ -1,10 +1,10 @@
 import React from "react";
-import { Admin, Resource, ListGuesser, EditGuesser } from "react-admin";
+import { Admin, Resource } from "react-admin";
 import dataProvider from "./rest";
 import authProvider from "./authProvider";
 import transformer from "./transformer";
 import { FormList } from "./resources/Form";
-import { Login, Layout } from "./layout";
+import { Layout } from "./layout";
 
 const App = () => (
   <Admin

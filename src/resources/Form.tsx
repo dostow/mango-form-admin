@@ -1,23 +1,18 @@
-import React, { Fragment, useCallback, FC, MouseEventHandler } from "react";
+import React, { Fragment, useCallback, FC } from "react";
 import {
   List,
   Datagrid,
   TextField,
-  ImageField,
   DateField,
   EmailField,
   Pagination,
   Filter,
   TextInput,
-  SimpleShowLayout,
-  Show,
   ShowProps,
   ListProps,
-  RichTextField,
   useEditController,
   useTranslate,
   SelectInput,
-  UrlField,
   FileField,
   ArrayField,
   FileFieldProps,
@@ -28,7 +23,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Form } from "../types";
 import { IconButton, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import { RaGrid, RaBox, BoxedShowLayout } from "ra-compact-ui";
+import { RaBox, BoxedShowLayout } from "ra-compact-ui";
 
 const useShowStyles = makeStyles((theme) => ({
   root: {
@@ -62,8 +57,7 @@ interface Props extends ShowProps {
 }
 
 const UploadFile: FC<FileFieldProps> = (props: any) => {
-  const record = props.record as { filename: string };
-  const [label, ext] = props.record.filename.split("_")[1].split(".");
+  const [label] = props.record.filename.split("_")[1].split(".");
 
   return <FileField {...props} source="url" title={label} />;
 };
