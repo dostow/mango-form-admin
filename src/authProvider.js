@@ -10,10 +10,10 @@ export default {
     const request = new Request(`${apiUrl}/sign_in`, {
       headers,
       method: "POST",
-      body: JSON.stringify({ Username: username, Password: password })
+      body: JSON.stringify({ Email: username, Password: password }),
     });
     return fetch(request)
-      .then(response => {
+      .then((response) => {
         if (response.status < 200 || response.status >= 300) {
           throw new Error(response.statusText);
         }
@@ -41,5 +41,5 @@ export default {
     return localStorage.getItem("token") ? Promise.resolve() : Promise.reject();
   },
   // called when the user navigates to a new location, to check for permissions / roles
-  getPermissions: () => Promise.resolve()
+  getPermissions: () => Promise.resolve(),
 };
