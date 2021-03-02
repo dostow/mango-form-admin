@@ -1,0 +1,38 @@
+<mjml>
+  <mj-head>
+    <mj-title>Service Order Submitted</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Helvetica, sans-serif"></mj-all>
+      <mj-text font-weight="300" font-size="16px" color="#616161" line-height="24px"></mj-text>
+      <mj-section padding="0px"></mj-section>
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column width="30%">
+        <mj-image href="https://mangonet.com.ng" src="https://mangonet.com.ng/wp-content/uploads/2019/11/mangonet-logo-e1573208220118.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <!--<mj-column width="100%">
+        <mj-text align="center" font-size="24px" font-weight="bold">You are almost there!</mj-text>
+      </mj-column>-->
+    </mj-section>
+    <mj-section padding-top="30px">
+      <mj-column width="100%">
+        <mj-text>
+          <p>Hello [[.Data.firstName]],</p>
+          <p>Thank you for signing up, your e-registration is complete.</p>
+          <p>We will contact you shortly for survey and installation.</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text align="left" font-size="14px">Best Regards</mj-text>
+        <mj-text align="left" font-size="14px">Mango NET</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

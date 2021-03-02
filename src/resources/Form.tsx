@@ -16,6 +16,7 @@ import {
   FileField,
   ArrayField,
   FileFieldProps,
+  FunctionField,
 } from "react-admin";
 import { Route, RouteChildrenProps, useHistory } from "react-router-dom";
 import { Drawer } from "@material-ui/core";
@@ -89,10 +90,17 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
           <TextField source="address" />
           <TextField source="billingAddress" />
           <TextField source="billingEmail" />
+          <TextField source="company" />
           <TextField source="billingFirstName" />
           <TextField source="billingLastName" />
           <TextField source="billingPhone" />
-          <DateField source="dob" />
+          <FunctionField
+            label="Date of Birth"
+            render={(record: any) =>
+              `${record?.dob?.day} - ${record?.dob?.month} - ${record?.dob?.year}`
+            }
+          />
+
           <TextField source="gender" />
           {/* <TextField source="meta.host" /> */}
           <TextField source="phone" />
@@ -104,6 +112,14 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
               </Datagrid>
             </ArrayField>
           </RaBox>
+          <FunctionField
+            label="Inspection Day"
+            render={(record: any) =>
+              `${record.inspectionDay.day} - ${record.inspectionDay.month} - ${record.inspectionDay.year}`
+            }
+          />
+
+          <TextField source="inspectionTime" />
           {/* <DateField source="created_at" />
         <DateField source="modified_at" /> */}
         </RaBox>

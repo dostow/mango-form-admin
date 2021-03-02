@@ -1,0 +1,176 @@
+<mjml>
+  <mj-head>
+    <mj-title>Service Order Submitted</mj-title>
+    <mj-attributes>
+      <mj-all font-family="Helvetica, sans-serif"></mj-all>
+      <mj-text font-weight="300" font-size="16px" color="#616161" line-height="24px"></mj-text>
+      <mj-section padding="0px"></mj-section>
+    </mj-attributes>
+  </mj-head>
+  <mj-body>
+    <mj-section>
+      <mj-column width="30%">
+        <mj-image src="https://mangonet.com.ng/wp-content/uploads/2019/11/mangonet-logo-e1573208220118.png"></mj-image>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text align="center" font-size="24px" font-weight="bold">New Service Order!</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section padding-top="30px">
+      <mj-column width="100%">
+        <mj-text>
+          <p>Hello [[(index .Include.support 0).contactName]]!</p>
+          <p> A new [[.Data.mode]] registration has been created for [[.Data.firstName]].</p>
+          <mj-column width="25%">
+            <mj-image src="[[.Data.passport]]" alt="[[.Data.passport]]"></mj-image>
+          </mj-column>
+          <p> Here are the details</p>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%" background-color="#fff">
+        <mj-table>
+          <tr style="border-bottom:2px solid #ecedee;text-align:left;background:#e9e9e980">
+            <th style="padding: 10px 10px;" width="40%">
+              <mj-text align="center" font-size="30px" font-weight="bold">Name</mj-text>
+            </th>
+            <th style="padding: 10px 15px;">
+              <mj-text align="center" font-size="30px" font-weight="bold">Value</mj-text>
+            </th>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Client IP</td>
+            <td style="padding: 0 15px;">[[.Data.meta.ip]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Type of Registration</td>
+            <td style="padding: 0 15px;">[[.Data.mode]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Plan</td>
+            <td style="padding: 0 15px;">[[.Data.plan]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">First Name</td>
+            <td style="padding: 0 15px;">[[.Data.firstName]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Last Name</td>
+            <td style="padding: 0 15px;">[[.Data.lastName]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Gender</td>
+            <td style="padding: 0 15px;">[[.Data.gender]]</td>
+          </tr>
+          [[if .Data.dob]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Date Of Birth</td>
+            <td style="padding: 0 15px;">[[.Data.dob.day]]/[[.Data.dob.month]]/[[.Data.dob.year]]</td>
+          </tr>
+          [[end]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Address</td>
+            <td style="padding: 0 15px;">[[.Data.address]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Residency</td>
+            <td style="padding: 0 15px;">[[.Data.residency]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Email</td>
+            <td style="padding: 0 15px;">[[.Data.email]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Phone</td>
+            <td style="padding: 0 15px;">[[.Data.phone]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing First Name</td>
+            <td style="padding: 0 15px;">[[.Data.billingFirstName]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing Last Name</td>
+            <td style="padding: 0 15px;">[[.Data.billingLastName]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing Address</td>
+            <td style="padding: 0 15px;">[[.Data.billingAddress]]</td>
+          </tr>
+          [[if eq .Data.mode "company"]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing Company</td>
+            <td style="padding: 0 15px;">[[.Data.billingCompany]]</td>
+          </tr>
+          [[end]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing Email</td>
+            <td style="padding: 0 15px;">[[.Data.billingEmail]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Billing Phone</td>
+            <td style="padding: 0 15px;">[[.Data.billingPhone]]</td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Passport Photograph</td>
+            <td style="padding: 0 15px;">
+              <a href="[[.Data.passport]]" target="_blank"> Click to view passport </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Government Identification</td>
+            <td style="padding: 0 15px;">
+              <a href="[[.Data.identification]]" target="_blank"> Click to view identification </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Utility Bill</td>
+            <td style="padding: 0 15px;">
+              <a href="[[.Data.utility]]" target="_blank"> Click to view utility </a>
+            </td>
+          </tr>
+          [[if eq .Data.mode "company"]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Incorporation Document</td>
+            <td style="padding: 0 15px;">
+              <a href="[[.Data.incorporation]]" target="_blank"> Click to view incorporation </a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Introduction Letter</td>
+            <td style="padding: 0 15px;">
+              <a href="[[.Data.letter]]" target="_blank"> Click to view letter </a>
+            </td>
+          </tr>
+          [[end]]
+
+          [[if .Data.inspectionDay]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Inspection Day</td>
+            <td style="padding: 0 15px;">[[.Data.inspectionDay.day]]/[[.Data.inspectionDay.month]]/[[.Data.inspectionDay.year]]</td>
+          </tr>
+          [[end]]
+          [[if .Data.inspectionTime]]
+          <tr>
+            <td style="padding: 5px 10px;" width="30%">Inspection Time</td>
+            <td style="padding: 0 15px;">[[.Data.inspectionTime]]</td>
+          </tr>
+          [[end]]
+        </mj-table>
+      </mj-column>
+      <mj-column width="100%">
+        <mj-text align="left" font-size="14px">
+        You can also view this registration in the <a href="https://som.mangonet.com.ng/#/form/[[.Data.id]]/show" target="_blank"> administration application </a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column width="100%">
+        <mj-text align="left" font-size="14px">Best Regards</mj-text>
+        <mj-text align="left" font-size="14px">Mango NET</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
