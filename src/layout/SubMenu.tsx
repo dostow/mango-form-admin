@@ -1,13 +1,8 @@
+import { ExpandMore } from "@mui/icons-material";
+import { Collapse, List, ListItemIcon, MenuItem, Tooltip, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import * as React from "react";
 import { FC, Fragment, ReactElement } from "react";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import List from "@material-ui/core/List";
-import MenuItem from "@material-ui/core/MenuItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Typography from "@material-ui/core/Typography";
-import Collapse from "@material-ui/core/Collapse";
-import Tooltip from "@material-ui/core/Tooltip";
-import { makeStyles } from "@material-ui/core/styles";
 import { useTranslate } from "react-admin";
 
 const useStyles = makeStyles((theme) => ({

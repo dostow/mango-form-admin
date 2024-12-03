@@ -1,8 +1,8 @@
 import { fetchUtils } from "react-admin";
-import { stringify } from "query-string";
+import queryString from "query-string";
 
-const apiUrl = process.env.REACT_APP_API_URL + "/store";
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = import.meta.env.VITE_APP_API_URL + "/store";
+const apiKey = import.meta.env.VITE_APP_API_KEY;
 const headers = new Headers();
 headers.set("x-dostow-group-access-key", apiKey);
 
@@ -32,7 +32,7 @@ export default {
     if (params.filter) {
       query.q = JSON.stringify(params.filter);
     }
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    const url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
 
     return httpClient(url).then(({ json }) => ({
       data: json.data,
@@ -66,7 +66,7 @@ export default {
         [params.target]: params.id,
       }),
     };
-    const url = `${apiUrl}/${resource}?${stringify(query)}`;
+    const url = `${apiUrl}/${resource}?${queryString.stringify(query)}`;
 
     return httpClient(url).then(({ headers, json }) => ({
       data: json,
@@ -84,7 +84,7 @@ export default {
     const query = {
       filter: JSON.stringify({ id: params.ids }),
     };
-    return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+    return httpClient(`${apiUrl}/${resource}?${queryString.stringify(query)}`, {
       method: "PUT",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json }));
@@ -107,7 +107,7 @@ export default {
     const query = {
       filter: JSON.stringify({ id: params.ids }),
     };
-    return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+    return httpClient(`${apiUrl}/${resource}?${queryString.stringify(query)}`, {
       method: "DELETE",
       body: JSON.stringify(params.data),
     }).then(({ json }) => ({ data: json }));

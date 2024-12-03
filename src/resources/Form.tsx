@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, FC } from "react";
+import React, { Fragment, useCallback, FC, useState } from "react";
 import {
   List,
   Datagrid,
@@ -17,19 +17,29 @@ import {
   ArrayField,
   FileFieldProps,
   FunctionField,
+  ShowBase,
+  useShowController,
+  Show,
+  SimpleList,
+  SimpleShowLayout,
 } from "react-admin";
-import { Route, RouteChildrenProps, useHistory } from "react-router-dom";
-import { Drawer } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { matchPath, Route, useLocation, useNavigate, useParams } from "react-router-dom";
+// import { Drawer } from "@material-ui/core";
+// import { makeStyles } from "@material-ui/core/styles";
 import { Form } from "../types";
-import { IconButton, Typography } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import { RaBox, BoxedShowLayout } from "ra-compact-ui";
+// import { IconButton, Typography } from "@material-ui/core";
+import CloseIcon from "@mui/icons-material/Close";
+import { Box, Drawer, Grid, Grid2, IconButton, Paper, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 
-const useShowStyles = makeStyles((theme) => ({
+
+const useShowStyles = makeStyles(() => ({
   root: {
-    paddingTop: 40,
-    width: 300,
+    paddingTop: "40px",
+    width: "90vw",
+    '@media (min-width: 960px)': {
+      width: "40vw",
+    },
   },
   title: {
     display: "flex",
@@ -38,13 +48,6 @@ const useShowStyles = makeStyles((theme) => ({
     margin: "1em",
   },
   form: {
-    [theme.breakpoints.up("xs")]: {
-      width: 300,
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "100vw",
-      marginTop: -30,
-    },
   },
   inlineField: {
     display: "inline-block",
@@ -54,22 +57,56 @@ const useShowStyles = makeStyles((theme) => ({
 }));
 
 interface Props extends ShowProps {
-  onCancel: () => void;
+  onCancel: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const UploadFile: FC<FileFieldProps> = (props: any) => {
-  const [label] = props.record.filename.split("_")[1].split(".");
+interface UploadFileProps extends FileFieldProps {
+  source?: string;
+  record?: Record<string, any>;
+}
 
-  return <FileField {...props} source="url" title={label} />;
+const UploadFile: FC<UploadFileProps> = (props) => {
+  const { source = 'url', record } = props;
+  const url = record?.[source];
+
+  if (!url) {
+    return null;
+  }
+
+  // Get filename from URL by splitting on underscore and getting the latter part
+  const getFileName = (url: string) => {
+    try {
+      const urlObj = new URL(url);
+      const pathSegments = urlObj.pathname.split('/');
+      const fullFileName = pathSegments[pathSegments.length - 1] || url;
+
+      // Split by underscore and get the latter part
+      const parts = fullFileName.split('_');
+      if (parts.length > 1) {
+        return parts[parts.length - 1];
+      }
+      return fullFileName;
+    } catch {
+      // If URL parsing fails, try direct string split
+      const parts = url.split('_');
+      if (parts.length > 1) {
+        return parts[parts.length - 1];
+      }
+      return url;
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      {/* <Download sx={{ color: 'primary.main' }} /> */}
+      <span>{getFileName(url)}</span>
+    </div>
+  );
 };
 
 export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
   const classes = useShowStyles();
-  const controllerProps = useEditController<Form>(props);
   const translate = useTranslate();
-  if (!controllerProps.record) {
-    return null;
-  }
   return (
     <div className={classes.root}>
       <div className={classes.title}>
@@ -78,52 +115,101 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
           <CloseIcon />
         </IconButton>
       </div>
-      <BoxedShowLayout {...controllerProps}>
-        <RaBox display="flex" flexDirection="column">
-          <DateField source="created_at" label="Created" />
-          <TextField source="plan" />
-          <TextField source="mode" label="Type" />
-          {/* <ImageField source="passport" /> */}
-          <TextField source="firstName" />
-          <TextField source="lastName" />
-          <EmailField source="email" />
-          <TextField source="address" />
-          <TextField source="billingAddress" />
-          <TextField source="billingEmail" />
-          <TextField source="company" />
-          <TextField source="billingFirstName" />
-          <TextField source="billingLastName" />
-          <TextField source="billingPhone" />
-          <FunctionField
-            label="Date of Birth"
-            render={(record: any) =>
-              `${record?.dob?.day} - ${record?.dob?.month} - ${record?.dob?.year}`
-            }
-          />
+      <Show
+        id={props.id}
+        title={<Typography variant="h6">&nbsp;|&nbsp;{translate("Details")}</Typography>}
+      >
+        <Paper elevation={3} style={{ padding: '16px', margin: '16px' }}>
+          <Grid container spacing={2}>
+            {/* Personal Information Section */}
+            <Grid item md={6}>
+              <Typography variant="subtitle1">Personal Information</Typography>
+              <SimpleShowLayout>
+                <DateField source="created_at" label="Created" />
+                <TextField source="firstName" label="First Name" />
+                <TextField source="lastName" label="Last Name" />
+                <EmailField source="email" label="Email" />
+                <TextField source="phone" label="Phone" />
+                <TextField source="gender" label="Gender" />
+                <FunctionField
+                  label="Date of Birth"
+                  render={(record: any) =>
+                    `${record?.dob?.day} - ${record?.dob?.month} - ${record?.dob?.year}`
+                  }
+                />
+              </SimpleShowLayout>
+            </Grid>
 
-          <TextField source="gender" />
-          {/* <TextField source="meta.host" /> */}
-          <TextField source="phone" />
-          <TextField source="residency" />
-          <RaBox display="inline-flex" flexDirection="column" flexGrow={1}>
-            <ArrayField source="files" label="Uploads">
-              <Datagrid>
-                <UploadFile source="url" label="" title="File" />
-              </Datagrid>
-            </ArrayField>
-          </RaBox>
-          <FunctionField
-            label="Inspection Day"
-            render={(record: any) =>
-              `${record.inspectionDay.day} - ${record.inspectionDay.month} - ${record.inspectionDay.year}`
-            }
-          />
+            {/* Address Information Section */}
+            <Grid item md={6}>
+              <Typography variant="subtitle1">Address Information</Typography>
+              <SimpleShowLayout>
+                <TextField source="address" label="Address" />
+                <TextField source="billingAddress" label="Billing Address" />
+                <TextField source="billingEmail" label="Billing Email" />
+                <TextField source="residency" label="Residency" />
+              </SimpleShowLayout>
+            </Grid>
 
-          <TextField source="inspectionTime" />
-          {/* <DateField source="created_at" />
-        <DateField source="modified_at" /> */}
-        </RaBox>
-      </BoxedShowLayout>
+            {/* Company Information Section */}
+            <Grid item md={6}>
+              <Typography variant="subtitle1">Company Information</Typography>
+              <SimpleShowLayout>
+                <TextField source="company" label="Company" />
+                <TextField source="billingFirstName" label="Billing First Name" />
+                <TextField source="billingLastName" label="Billing Last Name" />
+                <TextField source="billingPhone" label="Billing Phone" />
+              </SimpleShowLayout>
+            </Grid>
+
+            {/* Additional Information Section */}
+            <Grid item md={6}>
+              <Typography variant="subtitle1">Additional Information</Typography>
+              <SimpleShowLayout>
+                <TextField source="plan" label="Plan" />
+                <TextField source="mode" label="Type" />
+                <FunctionField
+                  label="Inspection Day"
+                  render={(record: any) =>
+                    `${record.inspectionDay.day} - ${record.inspectionDay.month} - ${record.inspectionDay.year}`
+                  }
+                />
+                <TextField source="inspectionTime" label="Inspection Time" />
+              </SimpleShowLayout>
+            </Grid>
+
+            {/* Uploads Section */}
+            <Grid item xs={12}>
+              <Typography variant="subtitle1">Uploads</Typography>
+              <SimpleShowLayout>
+                <ArrayField source="files" label="">
+                  <SimpleList
+                    linkType={(record) => record.url}
+                    primaryText={record => (
+                      <UploadFile record={record} source="url" label={record.name || 'File'} />
+                    )}
+                    secondaryText={record => {
+                      const date = new Date(record.created_at);
+                      return `Uploaded on ${date.toLocaleDateString()} at ${date.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                      })}`;
+                    }}
+                    sx={{
+                      bgcolor: 'background.paper',
+                      '& .RaSimpleList-secondary': {
+                        color: 'text.secondary',
+                        fontSize: '0.875rem'
+                      }
+                    }}
+                  />
+                </ArrayField>
+              </SimpleShowLayout>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Show>
     </div>
   );
 };
@@ -150,13 +236,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
-  list: {
-    flexGrow: 1,
-    transition: theme.transitions.create(["all"], {
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: 0,
-  },
+  // list: {
+  //   flexGrow: 1,
+  //   transition: theme.transitions.create(["all"], {
+  //     duration: theme.transitions.duration.enteringScreen,
+  //   }),
+  //   marginRight: 0,
+  // },
   listWithDrawer: {
     marginRight: 400,
   },
@@ -167,61 +253,58 @@ const useStyles = makeStyles((theme) => ({
 
 export const FormList: FC<ListProps> = (props) => {
   const classes = useStyles();
-  const history = useHistory();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const match = matchPath('/form/:id/show', location.pathname);
   const handleClose = useCallback(() => {
-    history.push("/form");
-  }, [history]);
+    navigate("/form");
+  }, [navigate]);
+
 
   return (
     <div className={classes.root}>
-      <Route path="/form/:id">
-        {({ match }: RouteChildrenProps<{ id: string }>) => {
-          const isMatch = !!(
-            match &&
-            match.params &&
-            match.params.id !== "create"
-          );
-
-          return (
-            <Fragment>
-              <List
-                {...props}
-                filterDefaultValues={{ mode: "residential" }}
-                filters={<Filters />}
-                pagination={<FormPagination />}
-                {...props}
-              >
-                <Datagrid rowClick="show">
-                  <DateField source="created_at" label="Created" />
-                  <TextField source="plan" />
-                  <TextField source="mode" label="Type" />
-                  <TextField source="firstName" />
-                  <TextField source="lastName" />
-                  <EmailField source="email" />
-                </Datagrid>
-              </List>
-              <Drawer
-                variant="persistent"
-                open={isMatch}
-                anchor="right"
-                onClose={handleClose}
-                classes={{
-                  paper: classes.drawerPaper,
-                }}
-              >
-                {isMatch ? (
-                  <FormShow
-                    id={(match as any).params.id}
-                    onCancel={handleClose}
-                    {...props}
-                  />
-                ) : null}
-              </Drawer>
-            </Fragment>
-          );
-        }}
-      </Route>
+      <Fragment>
+        <List
+          filterDefaultValues={{ mode: "residential" }}
+          filters={<Filters />}
+          pagination={<FormPagination />}
+          {...props}
+          sx={{
+            flexGrow: 1,
+            transition: (theme: any) =>
+              theme.transitions.create(['all'], {
+                duration: theme.transitions.duration.enteringScreen,
+              }),
+            marginRight: !!match ? '400px' : 0,
+          }}
+        >
+          <Datagrid rowClick="show">
+            <DateField source="created_at" label="Created" />
+            <TextField source="plan" />
+            <TextField source="mode" label="Type" />
+            <TextField source="firstName" />
+            <TextField source="lastName" />
+            <EmailField source="email" />
+          </Datagrid>
+        </List>
+        <Drawer
+          variant="persistent"
+          open={!!match}
+          anchor="right"
+          onClose={handleClose}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          {!!match && (
+            <FormShow
+              id={(match as any).params.id}
+              onCancel={handleClose}
+              {...props}
+            />
+          )}
+        </Drawer>
+      </Fragment>
     </div>
   );
 };

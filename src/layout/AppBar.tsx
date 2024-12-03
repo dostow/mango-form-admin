@@ -1,9 +1,10 @@
-import * as React from "react";
-import { forwardRef } from "react";
+import React from "react";
+import { makeStyles } from "@mui/styles";
 import { AppBar, UserMenu, MenuItemLink, useTranslate } from "react-admin";
-import Typography from "@material-ui/core/Typography";
-import SettingsIcon from "@material-ui/icons/Settings";
-import { makeStyles } from "@material-ui/core/styles";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { forwardRef } from "react";
+import Typography from "@mui/material/Typography";
+
 
 // import Logo from "./Logo";
 

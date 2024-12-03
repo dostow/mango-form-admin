@@ -1,5 +1,5 @@
-const apiUrl = process.env.REACT_APP_API_URL + "/auth";
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiUrl = import.meta.env.VITE_APP_API_URL + "/auth";
+const apiKey = import.meta.env.VITE_APP_API_KEY;
 const headers = new Headers();
 headers.set("x-dostow-group-access-key", apiKey);
 headers.set("Content-Type", "application/json");

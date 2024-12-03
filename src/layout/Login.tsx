@@ -1,8 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { Field, withTypes } from "react-final-form";
-import { useLocation } from "react-router-dom";
 
 import {
   Avatar,
@@ -11,12 +9,13 @@ import {
   CardActions,
   CircularProgress,
   TextField,
-} from "@material-ui/core";
-import { createMuiTheme, makeStyles } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { ThemeProvider } from "@mui/styles";
 // import LockIcon from "@material-ui/icons/Lock";
 import { Notification, useTranslate, useLogin, useNotify } from "react-admin";
 
+import { useLocation } from 'react-router-dom';
 import { lightTheme } from "./themes";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "1em",
     display: "flex",
     justifyContent: "center",
-    color: theme.palette.grey[500],
+    color: theme.palette.secondary.main,
   },
   form: {
     padding: "0 1em 1em 1em",
@@ -86,7 +85,7 @@ const Login = () => {
   const classes = useStyles();
   const notify = useNotify();
   const login = useLogin();
-  const location = useLocation<{ nextPathname: string } | null>();
+  const location = useLocation();
 
   const handleSubmit = (auth: FormValues) => {
     setLoading(true);
@@ -97,8 +96,8 @@ const Login = () => {
           typeof error === "string"
             ? error
             : typeof error === "undefined" || !error.message
-            ? "ra.auth.sign_in_error"
-            : error.message,
+              ? "ra.auth.sign_in_error"
+              : error.message,
           "warning"
         );
       }
@@ -175,16 +174,11 @@ const Login = () => {
   );
 };
 
-Login.propTypes = {
-  authProvider: PropTypes.func,
-  previousRoute: PropTypes.string,
-};
-
 // We need to put the ThemeProvider decoration in another component
 // Because otherwise the useStyles() hook used in Login won't get
 // the right theme
 const LoginWithTheme = (props: any) => (
-  <ThemeProvider theme={createMuiTheme(lightTheme)}>
+  <ThemeProvider theme={lightTheme}>
     <Login {...props} />
   </ThemeProvider>
 );
