@@ -123,7 +123,7 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
           <Grid container spacing={2}>
             {/* Personal Information Section */}
             <Grid item md={6}>
-              <Typography variant="subtitle1">Personal Information</Typography>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Personal Information</Typography>
               <SimpleShowLayout>
                 <DateField source="created_at" label="Created" />
                 <TextField source="firstName" label="First Name" />
@@ -142,7 +142,7 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
 
             {/* Address Information Section */}
             <Grid item md={6}>
-              <Typography variant="subtitle1">Address Information</Typography>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Address Information</Typography>
               <SimpleShowLayout>
                 <TextField source="address" label="Address" />
                 <TextField source="billingAddress" label="Billing Address" />
@@ -153,7 +153,7 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
 
             {/* Company Information Section */}
             <Grid item md={6}>
-              <Typography variant="subtitle1">Company Information</Typography>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Company Information</Typography>
               <SimpleShowLayout>
                 <TextField source="company" label="Company" />
                 <TextField source="billingFirstName" label="Billing First Name" />
@@ -164,7 +164,7 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
 
             {/* Additional Information Section */}
             <Grid item md={6}>
-              <Typography variant="subtitle1">Additional Information</Typography>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Additional Information</Typography>
               <SimpleShowLayout>
                 <TextField source="plan" label="Plan" />
                 <TextField source="mode" label="Type" />
@@ -180,7 +180,7 @@ export const FormShow: FC<Props> = ({ onCancel, ...props }) => {
 
             {/* Uploads Section */}
             <Grid item xs={12}>
-              <Typography variant="subtitle1">Uploads</Typography>
+              <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 2 }}>Uploads</Typography>
               <SimpleShowLayout>
                 <ArrayField source="files" label="">
                   <SimpleList
