@@ -31,6 +31,7 @@ import { Form } from "../types";
 import CloseIcon from "@mui/icons-material/Close";
 import { Box, Drawer, Grid, Grid2, IconButton, Paper, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { Download } from "@mui/icons-material";
 
 
 const useShowStyles = makeStyles(() => ({
@@ -97,10 +98,10 @@ const UploadFile: FC<UploadFileProps> = (props) => {
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      {/* <Download sx={{ color: 'primary.main' }} /> */}
-      <span>{getFileName(url)}</span>
-    </div>
+    <Box display="flex" alignItems="center" gap={1}>
+      <Download color="primary" fontSize="small" />
+      <Typography variant="body2">{getFileName(url)}</Typography>
+    </Box>
   );
 };
 
